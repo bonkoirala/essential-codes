@@ -1,0 +1,12 @@
+you need to know the ip address of your website, username, password and portnumber for the web hosting platform
+download and install filezilla
+open filezilla. on the top of the window you will see the following fields
+host
+username 
+password
+port
+fill in these fields and click quick connect
+on the left side is your local files which need to be uploaded for the website update
+on the right side is the actual web files which are online or the server side
+go to the folder where your webpage files are located and copy them to server side 
+upload begins and soon your files are available online
