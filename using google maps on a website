@@ -1,0 +1,87 @@
+// for google maps enabled in your website use the following line in the head section of the html file
+<!-- Load google maps api and call initializeMap function defined in app.js -->
+        <script async="" defer="" type="text/javascript" 
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCPov5JHkA6TofnPVyPGjqDWTsAlFeVJK0&callback=initializeMap"></script>
+
+//note:-the key variable is important for google maps to work, it can be generated from the following url.
+//https://developers.google.com/maps/documentation/javascript/get-api-key
+
+//initializeMap() is a js function that has the required code for maps which 
+//is given below
+
+//for a single pointer on the map, use the following js function
+
+function initializeMap() {
+    var lat = '9.981103'; //Set your latitude.
+    var lon = '76.285638'; //Set your longitude.
+
+    var centerLon = lon - 0.0105;
+
+    var myOptions = {
+        scrollwheel: true,
+        draggable: true,
+        disableDefaultUI: true,
+        center: new google.maps.LatLng(lat, centerLon),
+        zoom: 6,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+
+    //Bind map to elemet with id map-canvas
+    var map = new google.maps.Map(document.getElementById('map-canvas'), myOptions);
+    var marker = new google.maps.Marker({
+        map: map,
+        position: new google.maps.LatLng(lat, lon),
+
+    });
+
+    var infowindow = new google.maps.InfoWindow({
+        content: "Your content goes here!"
+    });
+
+    google.maps.event.addListener(marker, 'click', function () {
+        infowindow.open(map, marker);
+    });
+
+    infowindow.open(map, marker);
+}
+
+
+//for multiple pointers on the map, use this instead
+
+function initializeMap() {
+
+    var locations = [
+      ['Thrissur', 10.508223, 76.213564, 1],
+      ['Cochin', 9.981103,76.285638, 2],
+      ['Bangalore', 12.97533,77.605061, 3],
+      ['Manly Beach', 8.491978, 76.952208, 4]
+    ];
+
+    var map = new google.maps.Map(document.getElementById('map-canvas'), {
+      zoom: 7,
+      center: new google.maps.LatLng(10.814538,74.454331),
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+
+    var infowindow = new google.maps.InfoWindow();
+
+    var marker, i;
+
+    for (i = 0; i < locations.length; i++) {  
+      marker = new google.maps.Marker({
+        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+        map: map
+      });
+
+      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        return function() {
+          infowindow.setContent(locations[i][0]);
+          infowindow.open(map, marker);
+        }
+      })(marker, i));
+    }
+ }
+
+
+//then use the following code where you want to display the map in the html file
+<div id="map-canvas">Loading map...</div>
